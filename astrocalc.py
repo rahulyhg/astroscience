@@ -32,6 +32,7 @@ class AstrocalcGui(QMainWindow):
         c3 = self.gui.txtEasterYear.text()
         if len(c3) == 0 or int(c3) < 1582:
             msg = QMessageBox()
+
             msg.setIcon(QMessageBox.Critical)
             msg.setText("Invalid input for the year!")
             msg.setInformativeText("Year value should be at least 1583!")
