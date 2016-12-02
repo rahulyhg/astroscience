@@ -25,6 +25,9 @@ class AstrocalcGui(QMainWindow):
         self.gui.btnCalcEaster.clicked.connect(self.calcEaster)
         self.gui.btnConvertGCDJD.clicked.connect(self.calcJulianDate)
 
+        # --- Connect actions (toolbar button clicks)
+        self.gui.actionExit.triggered.connect(qApp.quit)
+
     def calcEaster(self):
         # Calculate the date of easter
 
