@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QMessageBox, qAp
 from PyQt5.QtCore import QSettings, QPoint, QSize, QObject
 # import dvgscience.GUI.AstroCalc.astroressources_rc
 
+
 class AstrocalcGui(QMainWindow):
 
     def __init__(self):
@@ -24,6 +25,7 @@ class AstrocalcGui(QMainWindow):
         self.gui.btnConvertGSTLST.clicked.connect(self.gstToLst)
         self.gui.btnCalcEaster.clicked.connect(self.calcEaster)
         self.gui.btnConvertGCDJD.clicked.connect(self.calcJulianDate)
+        self.gui.btnConvertJDGCD.clicked.connect(self.calcGCDfromJulianDate)
 
         # --- Connect actions (toolbar button clicks)
         self.gui.actionExit.triggered.connect(qApp.quit)
@@ -58,6 +60,12 @@ class AstrocalcGui(QMainWindow):
                           int(self.gui.txtGDJY.text()))
         self.gui.txtJulianDate.setText(str(result))
 
+    def calcGCDfromJulianDate(self):
+        # Calculate Greenwich Calendar Date from Julian Date
+        jd = float(self.gui.txtJDGD.text())
+        self.gui.txtJD2GD.setText(str(dvg.jdcday(jd)))
+        self.gui.txtJD2GM.setText(str(dvg.jdcmonth(jd)))
+        self.gui.txtJD2GY.setText(str(dvg.jdcyear(jd)))
 
     def gstToLst(self):
         # Conversion of Greenwich Siderial time to Local Siderial Time.
