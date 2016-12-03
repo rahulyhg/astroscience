@@ -26,8 +26,9 @@ class AstrocalcGui(QMainWindow):
         self.gui.btnCalcEaster.clicked.connect(self.calcEaster)
         self.gui.btnConvertGCDJD.clicked.connect(self.calcJulianDate)
         self.gui.btnConvertJDGCD.clicked.connect(self.calcGCDfromJulianDate)
+        self.gui.btnCalcHMSDC.clicked.connect(self.calcHMSDC)
 
-        # --- Connect actions (toolbar button clicks)
+        # --- Connect actions (toolbar button and menu clicks)
         self.gui.actionExit.triggered.connect(qApp.quit)
 
     def calcEaster(self):
@@ -37,7 +38,6 @@ class AstrocalcGui(QMainWindow):
         c3 = self.gui.txtEasterYear.text()
         if len(c3) == 0 or int(c3) < 1582:
             msg = QMessageBox()
-
             msg.setIcon(QMessageBox.Critical)
             msg.setText("Invalid input for the year!")
             msg.setInformativeText("Year value should be at least 1583!")
@@ -61,11 +61,20 @@ class AstrocalcGui(QMainWindow):
         self.gui.txtJulianDate.setText(str(result))
 
     def calcGCDfromJulianDate(self):
-        # Calculate Greenwich Calendar Date from Julian Date
-        jd = float(self.gui.txtJDGD.text())
-        self.gui.txtJD2GD.setText(str(dvg.jdcday(jd)))
-        self.gui.txtJD2GM.setText(str(dvg.jdcmonth(jd)))
-        self.gui.txtJD2GY.setText(str(dvg.jdcyear(jd)))
+        try:
+            # Calculate Greenwich Calendar Date from Julian Date
+            jd = float(self.gui.txtJDGD.text())
+            self.gui.txtJD2GD.setText(str(dvg.jdcday(jd)))
+            self.gui.txtJD2GM.setText(str(dvg.jdcmonth(jd)))
+            self.gui.txtJD2GY.setText(str(dvg.jdcyear(jd)))
+        except ValueError:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Invalid input for the Julian date")
+            msg.setInformativeText("Please enter a valid Julian date")
+            msg.setWindowTitle("Error")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
 
     def gstToLst(self):
         # Conversion of Greenwich Siderial time to Local Siderial Time.
@@ -83,6 +92,10 @@ class AstrocalcGui(QMainWindow):
         self.gui.txtLSTHour.setText(str(result[0]))
         self.gui.txtLSTMinutes.setText(str(result[1]))
         self.gui.txtLSTSeconds.setText(str(result[2]))
+
+    def calcHMSDC(self):
+        # Convert Hour Minutes and seconds to Decimal Hours
+        pass
 
     def closeEvent(self, e):
         # When the QMainWindow is closed, the closeEvent is triggered automatically
