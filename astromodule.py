@@ -176,6 +176,7 @@ def jdcyear(jd):
     return jdcyear
 
 
+
 def getweekday_nr_and_name(year, month, day):
     """
     Wrapper round the calendar functionality
